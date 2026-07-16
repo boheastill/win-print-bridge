@@ -12,6 +12,8 @@ chosen local printer **with no browser print dialog**. Zero npm dependencies
 > Windows machine the same code lists real printers and prints for real. Nothing
 > here calls a mock print a real one.
 
+![live run](docs/demo-run.png)
+
 ## Run the demo (works on any OS, no printer needed)
 
 ```bash
