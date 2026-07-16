@@ -1,0 +1,8 @@
+{
+  "name": "win-print-bridge",
+  "version": "0.1.0",
+  "description": "Local print bridge: browser ERP -> silent print to a chosen Windows printer, no dialog. Zero deps, 3 security gates.",
+  "main": "src/bridge.js",
+  "scripts": { "start": "node src/bridge.js" },
+  "license": "MIT"
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Print Bridge — browser demo (stands in for your ERP)</title>
+<style>
+  body{font:15px/1.5 system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px;color:#1e2430}
+  h1{font-size:20px} code{background:#f2f0ea;padding:1px 5px;border-radius:4px}
+  .row{display:flex;gap:10px;align-items:center;margin:12px 0}
+  button{background:#2563eb;color:#fff;border:0;border-radius:8px;padding:9px 16px;font:inherit;cursor:pointer}
+  button:hover{background:#1d4ed8} select,input{padding:8px;border:1px solid #d8d4cc;border-radius:6px;font:inherit}
+  #log{background:#0b1020;color:#a7f3d0;padding:12px;border-radius:8px;font:13px ui-monospace,monospace;white-space:pre-wrap;min-height:80px}
+  .muted{color:#6b7480}
+</style>
+<h1>Print Bridge — browser demo</h1>
+<p class="muted">This page stands in for your React ERP. It talks to the local bridge on <code>127.0.0.1:47600</code>, lists printers, and prints a PDF with no browser dialog.</p>
+
+<div class="row">Pairing token: <input id="tok" size="40" placeholder="paste x-bridge-token from the bridge console"></div>
+<div class="row"><button onclick="loadPrinters()">1 · Detect printers</button> <select id="printer"></select></div>
+<div class="row"><button onclick="printSample()">2 · Silently print sample.pdf</button></div>
+<div id="log">…</div>
+
+<script>
+const BASE = "http://127.0.0.1:47600";
+const log = (m) => document.getElementById("log").textContent = typeof m === "string" ? m : JSON.stringify(m, null, 2);
+const tok = () => document.getElementById("tok").value.trim();
+
+async function loadPrinters() {
+  try {
+    const r = await fetch(BASE + "/printers", { headers: { "x-bridge-token": tok() } });
+    const d = await r.json();
+    if (!r.ok) return log(d);
+    const sel = document.getElementById("printer"); sel.innerHTML = "";
+    d.printers.forEach(p => { const o = document.createElement("option");
+      o.value = p.name; o.textContent = p.name + (p.default ? " (default)" : ""); sel.appendChild(o); });
+    log((d.mock ? "[MOCK] " : "[WINDOWS] ") + "printers loaded — " + d.printers.map(p=>p.name).join(", "));
+  } catch (e) { log("bridge not reachable — is it running? " + e); }
+}
+
+async function printSample() {
+  const pdf = await (await fetch("sample.pdf")).arrayBuffer();
+  const b64 = btoa(String.fromCharCode(...new Uint8Array(pdf)));
+  const r = await fetch(BASE + "/print", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-bridge-token": tok() },
+    body: JSON.stringify({ printer: document.getElementById("printer").value, pdfBase64: b64 }),
+  });
+  log(await r.json());
+}
+</script>
