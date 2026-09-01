@@ -72,3 +72,7 @@ the bridge is up.
 
 ## License
 MIT
+
+---
+
+**Author**: [Bohea](https://boheastill.com) — independent industrial software engineer (Shenzhen). Operator HMIs · device integration · machine data into your customer's ERP. More runnable demos & engineering notes on the site.
