@@ -75,4 +75,4 @@ MIT
 
 ---
 
-**Author**: [Bohea](https://boheastill.com) — independent industrial software engineer (Shenzhen). Operator HMIs · device integration · machine data into your customer's ERP. More runnable demos & engineering notes on the site.
+**Need your web ERP/WMS to talk silently to local Windows printers, scales, or scanners?** I build zero-dependency local hardware bridges and shop-floor installers. **[3-day Feasibility Sprint ($750)](https://boheastill.com/sprint/?r=gh-win-print-bridge)** · **[hi@boheastill.com](mailto:hi@boheastill.com)** · **[boheastill.com](https://boheastill.com/?r=gh-win-print-bridge)**
